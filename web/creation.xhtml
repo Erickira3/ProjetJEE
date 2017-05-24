@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+         xmlns:h="http://java.sun.com/jsf/html"
+         xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+</h:head>
+<body>
+<h1>Login Page</h1>
+
+<h:form>
+    <table border="0">
+        <tr>
+            <td> Your Login</td>
+            <td>
+                <h:inputText id="username" value="#{bean.name}">
+                    <f:validator validatorId="validators.username" />
+                </h:inputText>
+            </td>
+            <td> <h:message for="username" showDetail="true" style="color:red"/></td>
+        </tr>
+
+        <tr>
+            <td> Your Password</td> <td> <h:inputSecret value="#{bean.pass}"/></td>
+        </tr>
+        <tr>
+            <td> Your Email</td>
+            <td><h:inputText id="email" value="#{bean.email}" /></td>
+        </tr>
+        <tr>
+            <td> Your FirstName</td>
+            <td><h:inputText id="firstNameInput" value="#{bean.nom}" /></td>
+        </tr>
+        <tr>
+            <td> Your Age</td>
+            <td><h:inputText id="age" value="#{bean.age}" /></td>
+        </tr>
+        <!--<f:ajax event="keyup" render="displayName displayLastName displayAge" execute="@form" />-->
+        <h:commandButton value="Submit" action="#{bean.subinsert}"/>
+
+    </table>
+</h:form>
+</body>
+
+</html>
