@@ -5,9 +5,11 @@ package com.tpJava.model.bean;
  */
 import com.tpJava.controler.LoginDao;
 
+import javax.annotation.PostConstruct;
 import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -72,6 +74,14 @@ public class Bean implements Serializable{
         new LoginDao().insert(requete);
     }
 
+    public void subAdmin(Bean user) throws SQLException {
+        result = "Submitted values: " + user.name + ", " + user.pass + ", " + user.email + ", " + user.nom + ", " + user.age ;
+        System.out.println(result);
+        String requete = "INSERT INTO `userreg`(`name`, `pass`, `nom`, `email`, `age`) VALUES ('" + user.name +"','"+user.pass+"','"+user.nom+"','"+user.email+"','"+user.age+"')";
+        System.out.println(requete);
+        new LoginDao().insert(requete);
+    }
+
     public void subselect() throws SQLException {
         result = "Submitted values: " + name + ", " + pass;
         System.out.println(result);
@@ -117,6 +127,14 @@ public class Bean implements Serializable{
         }
         return listUser;
     }
+
+    public void update(Bean user) throws SQLException {
+        String requete = "UPDATE `userreg` SET `name`='"+user.name+"',`nom`='"+user.nom+"',`email`='"+user.email+"',`age`='"+user.age+"' WHERE `name`='"+user.name+"';";
+        new LoginDao().query(requete);
+        ResultSet verif = new LoginDao().query(requete);
+        new LoginDao().query(requete);
+    }
+
     public String getName() {
         return name;
     }
@@ -183,12 +201,26 @@ public class Bean implements Serializable{
     public void setCanEdit(boolean canEdit) {
         this.canEdit = canEdit;
     }
-    public String addUser() {
+    public String addUser() throws SQLException {
         Bean employee = new Bean(name,nom,age,email);
         listUser.add(employee);
         return null;
     }
 
+    public void edit(Bean todo) throws SQLException {
+        for (Bean existing : getlistUser()){
+            existing.setCanEdit(false);
+        }
+        todo.setCanEdit(true);
+    }
+
+    public void cancelEdit(Bean todo){
+        todo.setCanEdit(false);
+    }
+
+    public void remove(Bean todo){
+        listUser.remove(todo);
+    }
     public String deleteUser(Bean employee) {
         listUser.remove(employee);
         return null;
@@ -199,7 +231,7 @@ public class Bean implements Serializable{
         return null;
     }
 
-    public String saveUser() {
+    public String saveUser(Bean user) {
 
         //set "canEdit" of all employees to false
 
@@ -209,3 +241,5 @@ public class Bean implements Serializable{
         return null;
     }
 }
+
+
