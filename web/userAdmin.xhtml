@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:head>
+    <h:outputStylesheet library="css" name="mystyle.css"  />
+</h:head>
+<h:body>
+
+    <h1>JSF 2 dataTable example</h1>
+    <h:form>
+        <h:dataTable value="#{userL.listUser}" var="o"
+                     styleClass="order-table"
+                     headerClass="order-table-header"
+                     rowClasses="order-table-odd-row,order-table-even-row"
+        >
+
+            <h:column>
+                <f:facet name = "header">Login</f:facet>
+                <h:inputText value = "#{o.name}"
+                             size = "10" rendered = "#{o.canEdit}" />
+                <h:outputText value = "#{o.name}"
+                              rendered = "#{not o.canEdit}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">Nom</f:facet>
+                <h:inputText value = "#{o.nom}"
+                             size = "20" rendered = "#{o.canEdit}" />
+                <h:outputText value = "#{o.nom}"
+                              rendered = "#{not o.canEdit}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">Age</f:facet>
+                <h:inputText value = "#{o.age}" size = "5"
+                             rendered = "#{o.canEdit}" />
+                <h:outputText value = "#{o.age}"
+                              rendered = "#{not o.canEdit}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">Email</f:facet>
+                <h:inputText value = "#{o.email}"
+                             size = "5" rendered = "#{o.canEdit}" />
+                <h:outputText value = "#{o.email}"
+                              rendered = "#{not o.canEdit}" />
+            </h:column>
+
+            <h:column>
+                <h:commandLink value="Edit" action="#{o.canEdit()}"
+                               rendered="#{not o.canEdit}" />
+                <h:commandLink value="Save" action="#{userLService.update(o)}" rendered="#{o.canEdit}" >
+                    <f:ajax execute="@form" />
+                </h:commandLink>
+            </h:column>
+            <h:column>
+                <h:commandLink id="remove" value="delete" action="#{userLService.deleteStudent(o)}"
+                               onclick="return confirm('Are you sure?')">
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
+        <br/>
+
+        <!--<h:commandButton value = "Save Employees"-->
+                         <!--action = "#{UserL.save}" />-->
+    </h:form>
+
+</h:body>
+</html>

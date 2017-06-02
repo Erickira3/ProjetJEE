@@ -1,4 +1,4 @@
-package com.tpJava.model;
+package com.tpJava.controler;
 
 /**
  * Created by Erickira on 23/05/2017.
@@ -8,10 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-import com.mysql.jdbc.*;
 public class LoginDao {
     public Connection conn;
     private Statement statement;
+    PreparedStatement stmt = null;
     public static LoginDao db;
     public static boolean validate(String name,String pass){
         boolean status=false;
@@ -42,44 +42,48 @@ public class LoginDao {
     }
     /**
      * @desc A singleton database access class for MySQL
-     * @author Ramindu
      */
-        /**
-         *
-         * @return MysqlConnect Database connection object
-         */
-        public static synchronized LoginDao getDbCon() {
-            if ( db == null ) {
-                db = new LoginDao();
-            }
-            return db;
-
+    /**
+     *
+     * @return MysqlConnect Database connection object
+     */
+    public static synchronized LoginDao getDbCon() {
+        if ( db == null ) {
+            db = new LoginDao();
         }
-        /**
-         *
-         * @param query String The query to be executed
-         * @return a ResultSet object containing the results or null if not available
-         * @throws SQLException
-         */
-        public ResultSet query(String query) throws SQLException{
-            statement = db.conn.createStatement();
-            ResultSet res = statement.executeQuery(query);
-            return res;
-        }
-        /**
-         * @desc Method to insert data to a table
-         * @param insertQuery String The Insert query
-         * @return boolean
-         * @throws SQLException
-         */
-        public int insert(String insertQuery) throws SQLException {
-            statement = db.conn.createStatement();
-            int result = statement.executeUpdate(insertQuery);
-            return result;
+        return db;
 
-        }
+    }
+    /**
+     *
+     * @param query String The query to be executed
+     * @return a ResultSet object containing the results or null if not available
+     * @throws SQLException
+     */
+    public ResultSet query(String query) throws SQLException{
+        db = getDbCon();
+        stmt = db.conn.prepareStatement(query);
+        ResultSet res = stmt.executeQuery(query);
+        return res;
+    }
+    /**
+     * @desc Method to insert data to a table
+     * @param insertQuery String The Insert query
+     * @return boolean
+     * @throws SQLException
+     */
+    public int insert(String insertQuery) throws SQLException {
+//        System.out.println(db);
+//        System.out.println("---------------------");
+//        System.out.println(conn);
+        db = getDbCon();
+        stmt = db.conn.prepareStatement(insertQuery);
+        int result = stmt.executeUpdate(insertQuery);
+        return result;
 
-    private LoginDao() {
+    }
+
+    public LoginDao() {
         String url= "jdbc:mysql://localhost:3306/";
         String dbName = "projetjee";
         String driver = "com.mysql.jdbc.Driver";
@@ -93,5 +97,6 @@ public class LoginDao {
             sqle.printStackTrace();
         }
     }
+
 }
 
