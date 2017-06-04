@@ -13,7 +13,7 @@
 			<tr>
 				<td> Your Login</td> 
 				<td> 
-					<h:inputText id="name" value="#{bean.name}" required="true">
+					<h:inputText id="name" value="#{userL.name}" required="true">
 						<f:validator validatorId="validators.username" />
 					</h:inputText>
 				</td>
@@ -21,10 +21,10 @@
 			</tr>
 			
 			<tr>
-				<td> Your Password</td> <td> <h:inputSecret value="#{bean.pass}"/></td>
+				<td> Your Password</td> <td> <h:inputSecret value="#{userL.pass}"/></td>
 			</tr>
 			<tr>
-				<td> </td> <td><h:commandButton value="Submit" action="#{bean.subselect}"/>
+				<td> </td> <td><h:commandButton value="Submit" action="#{userLService.findStudent(userL)}"/>
 			</td>
 			</tr>
 		</table>

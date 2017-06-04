@@ -1,4 +1,4 @@
-package src.com.tpJava.model.bean;
+package com.tpJava.model.bean;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.xml.crypto.Data;
 
-import Controller.LoginDao;
+import com.tpJava.controler.LoginDao;
 
 import java.sql.*;
 

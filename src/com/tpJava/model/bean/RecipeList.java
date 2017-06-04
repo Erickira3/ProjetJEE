@@ -1,4 +1,4 @@
-package src.com.tpJava.model.bean;
+package com.tpJava.model.bean;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import javax.faces.bean.*;
 import javax.faces.context.*;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import Controller.LoginDao;
+import com.tpJava.controler.LoginDao;
 
 @ManagedBean
 //(name="RecipeList")
@@ -19,98 +19,104 @@ public class RecipeList {
 
 	private List<RecipeBean> recipes;
 	private List<RecipeCommentsBean> recipeComments;
-	private RecipeBean selectedRecipe; 
+	private RecipeBean selectedRecipe;
 	
 	public RecipeList() {
 	}
 	
 	public String Search() throws SQLException, IOException {
-		
-		System.out.println("search()");
 
-		//Recuperation des parametres de la recherche
-		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap(); 
+
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String time = params.get("time");
 		String nbrPerson = params.get("nbrPerson");
 		String type = params.get("type");
 		String rating = params.get("rating");
-		
+
+		Integer timeInt = 0;
+
+
 //		System.out.println("Time : "+time+"\nRating : "+rating+"\nPeople : "+nbrPerson+"\nType : "+type);
-		
+
 		//Construction de la requete
 		String requete = "SELECT r.id, r.name, r.time, r.people, r.rating, r.resume, tr.name as type, tr.id as id_type, avg(rc.rating) "
 				+ "FROM `recipe` r "
 				+ "JOIN `type_recipe` tr ON tr.id = r.id_type "
 				+ "LEFT JOIN `recipe_comments` rc ON rc.id_recipe = r.id "
 				+ "WHERE 1 ";
-		
+
 		//Ajout des parametres de recherche a la requete
-		if(time != null) {
-			requete += "AND time = '"+time+"' ";
-		}
-		if(nbrPerson != null) {
-			requete += "AND people = '"+nbrPerson+"' ";
-		}
-		if(rating != null) {
-			requete += "AND expertise = "+rating+" ";
-		}
-		if(type != null) {
-			requete += "AND tr.name = '"+type+"' ";
-		}
-		
+//		if(time != null && !time.equals("")) {
+//			String[] split = time.split(":");
+//			timeInt = Integer.valueOf(split[0]) * 60 + Integer.valueOf(split[1]);
+//		}
+//		if(timeInt != 0) {
+//			requete += "AND time = '"+time+"' ";
+//		}
+//		if(nbrPerson != null && nbrPerson != "") {
+//			requete += "AND people = "+nbrPerson+" ";
+//		}
+//		if(rating != null && rating != "0") {
+//			requete += "AND r.rating = "+rating+" ";
+//		}
+//		if(type != null) {
+//			requete += "AND r.id_type = '"+type+"' ";
+//		}
+
 		requete += "GROUP BY r.id";
-		
+		System.out.println(requete);
+
 		//Execution de la requete
-//        System.out.println(requete);
-//        ResultSet results = new LoginDao().query(requete);
+
+        ResultSet results = new LoginDao().query(requete);
 //        
 		recipes = new ArrayList<>();
 		RecipeBean r;
         
         //Parcours des resultats
-//        while (results.next()) {
-//            r = new RecipeBean();
-//			r.setName(results.getString("name"));
-//			r.setTime(results.getInt("time"));
-//			r.setRating(results.getInt("rating"));
-//			r.setType(results.getString("type"));
-//			r.setNbrPerson(results.getInt("people"));
-//			r.setResume(results.getString("resume"));
-//			recipes.add(r);
-//        }
+        while (results.next()) {
+            r = new RecipeBean();
+			r.setName(results.getString("name"));
+			r.setTime(results.getString("time"));
+			r.setRating(results.getInt("rating"));
+			r.setType(results.getString("type"));
+			r.setNbrPerson(results.getInt("people"));
+			r.setResume(results.getString("resume"));
+			recipes.add(r);
+        }
 		
-        r = new RecipeBean();
-        r.setId(1);
-		r.setName("name");
-		r.setTime("12");
-		r.setRating(4);
-		r.setType("Salad");
-		r.setNbrPerson(1);
-		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
-
-		recipes.add(r);
-
-        r = new RecipeBean();
-        r.setId(2);
-		r.setName("name2");
-		r.setTime("3");
-		r.setRating(4);
-		r.setType("Salad");
-		r.setNbrPerson(1);
-		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
-
-		recipes.add(r);
-
-        r = new RecipeBean();
-        r.setId(3);
-		r.setName("name3");
-		r.setTime("2");
-		r.setRating(4);
-		r.setType("Salad");
-		r.setNbrPerson(1);
-		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
-
-		recipes.add(r);
+//        r = new RecipeBean();
+//        r.setId(1);
+//		r.setName("name");
+//		r.setTime("12");
+//		r.setRating(4);
+//		r.setType("Salad");
+//		r.setNbrPerson(1);
+//		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
+//
+//		recipes.add(r);
+//
+//        r = new RecipeBean();
+//        r.setId(2);
+//		r.setName("name2");
+//		r.setTime("3");
+//		r.setRating(4);
+//		r.setType("Salad");
+//		r.setNbrPerson(1);
+//		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
+//
+//		recipes.add(r);
+//
+//        r = new RecipeBean();
+//        r.setId(3);
+//		r.setName("name3");
+//		r.setTime("2");
+//		r.setRating(4);
+//		r.setType("Salad");
+//		r.setNbrPerson(1);
+//		r.setResume("BlablaBlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla BlablaBlabla Blabla Blabla BlablaBlabla");
+//
+//		recipes.add(r);
 		
 //		FacesContext.getCurrentInstance().getExternalContext().redirect("search.jsf");
         

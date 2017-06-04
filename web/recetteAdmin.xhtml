@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <!--template="../template/adminPage.xhtml">-->
+    <h:head>
+        <h:outputStylesheet library="css" name="mystyle.css"  />
+    </h:head>
+    <h:body>
+        <!--<ui:define name="sectionHeaderActivity">-->
+        <!--<div id="headerActivity" style="background-color: orange">-->
+        <!--Administration-->
+        <!--</div>-->
+        <!--</ui:define>-->
+        <!--<ui:define name="adminContent">-->
+        <h:outputText value = "Hi!"/>
+
+        <h1>Existing users</h1>
+        <div id="listRecipe">
+            <h:form>
+                <h:dataTable id="recipeDataTable" var="recipeTemp"
+                             value="#{RecipeBean.listRecipe}"
+                             styleClass="order-table"
+                             headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{recipeTemp.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Id_Type</f:facet>
+                        #{recipeTemp.type}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Delete</f:facet>
+                        <h:commandLink id="remove" value="delete" action="#{recipeService.deleteRecipe(usertemp)}"
+                                       onclick="return confirm('Are you sure?')">
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Edit</f:facet>
+                        <p:commandButton value="Edit" id="edit" update=":createUser"
+                                         actionListener="#{recipeService.update(usertemp)}"/>
+
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button"/>
+            <p:commandButton value="No" type="button"/>
+        </p:confirmDialog>
+
+        <div id="editUser">
+
+            <div id="createUserForm">
+
+                <h:form id="createUser"
+                        style="display:#{empty RecipeBean?'none':'block'}">
+                    <table id="tableForm">
+                        <tr>
+                            <td><label>First Name : </label></td>
+                            <td><h:inputText id="firstname" name="firstname"
+                                             required="true" value="#{RecipeBean.name}">
+                                <!--<f:validator validatorId="check.firstName" />-->
+                            </h:inputText></td>
+                            <td><h:message for="firstname" showDetail="true"
+                                           style="color:red"/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Rating : </label></td>
+                            <td><h:inputText id="age" name="age" required="true"
+                                             value="#{RecipeBean.rating}">
+                                <!--<f:validator validatorId="check.age" />-->
+                            </h:inputText></td>
+                            <td><h:message for="age" showDetail="true" style="color:red"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Nombre personne : </label></td>
+                            <td><h:inputText id="mail" name="mail" required="true"
+                                             value="#{RecipeBean.nbrPerson}">
+                                <!--<f:validator validatorId="check.mail" />-->
+                            </h:inputText></td>
+                            <td><h:message for="mail" showDetail="true"
+                                           style="color:red"/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Commentaire : </label></td>
+                            <td><h:inputText id="login" name="login" required="true"
+                                             value="#{RecipeBean.resume}">
+                                <!--<f:validator validatorId="check.login" />-->
+                            </h:inputText></td>
+                            <td><h:message for="login" showDetail="true"
+                                           style="color:red"/></td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td><label>Administrateur : </label></td>-->
+                        <!--<td><p:selectBooleanCheckbox-->
+                        <!--value="#{currentEditUser.administrator}" /></td>-->
+                        <!--<td><h:message for="login" showDetail="true"-->
+                        <!--style="color:red" /></td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <td><label>Password : </label></td>
+                            <td>******</td>
+                        </tr>
+                        <tr>
+                            <td><h:commandButton id="submitUserCreate"
+                                                 name="submitUserCreate" value="Save changes"
+                                                 action="#{recipeService.createRecipe(RecipeBean)}"></h:commandButton>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:commandButton value="Cancel" id="cancelEdit"
+                                                 update=":createUser"
+                                                 actionListener="#{recipeService.cancelEditUser()}"/></td>
+                        </tr>
+                    </table>
+                </h:form>
+            </div>
+        </div>
+        <!--</ui:define>-->
+    </h:body>
+</ui:composition>

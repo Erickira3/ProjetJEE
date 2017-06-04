@@ -17,11 +17,6 @@ import java.util.ArrayList;
 @SessionScoped
 public class UserLDao {
 
-    final String INSERT_CLAUSE = "INSERT INTO student (firstname,lastname,sex,major,year,birthdate) VALUES(?, ?, ?, ?, ?, ?)";
-    final String SELECT_TRANSACTION = "SELECT * FROM student";
-    final String DELETE = "DELETE FROM student";
-    final String UPDATE = "UPDATE student";
-
     private Connection connection;
     private Statement statement;
     private String result;

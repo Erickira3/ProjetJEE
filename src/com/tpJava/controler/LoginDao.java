@@ -64,6 +64,7 @@ public class LoginDao {
         db = getDbCon();
         stmt = db.conn.prepareStatement(query);
         ResultSet res = stmt.executeQuery(query);
+        System.out.println(res);
         return res;
     }
     /**
@@ -79,6 +80,7 @@ public class LoginDao {
         db = getDbCon();
         stmt = db.conn.prepareStatement(insertQuery);
         int result = stmt.executeUpdate(insertQuery);
+        System.out.println(result);
         return result;
 
     }
