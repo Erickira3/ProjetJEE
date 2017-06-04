@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/Template/template.xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pf="http://jsf.playerfinder.net/components"
+    xmlns:p="http://primefaces.org/ui">
+	
+		<ui:define name="section">
+			<h1>Recipes</h1>
+		</ui:define>
+	
+		<ui:define name="mytitle">
+			
+		</ui:define>
+		
+		<br/>
+		
+		<ui:define name="mybody" style="width:80%">
+
+			<h:form id="form">  
+			    <p:dataGrid var="recipetmp" value="#{recipeList.recipes}" columns="2"  
+			        rows="3" paginator="true"  
+			        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+			        >  
+			  
+			        <p:panel style="text-align:center">  
+			            <h:panelGrid columns="2" style="width:100%">  
+			            	<h:panelGrid columns="2" rows="4">
+				            	
+				            	<h:graphicImage value="Images/type.png" alt="type" width="30px"/> 
+			            		<h:outputText value="#{recipetmp.type}" />
+			            		
+			            		<h:graphicImage value="Images/clock.png" alt="clock" width="30px"/> 
+			            		<h:outputText value="#{recipetmp.time}" />
+			            		
+			            		<h:graphicImage value="Images/people.png" alt="people" width="30px"/> 
+			            		<h:outputText value="nbrPerson" />
+			            		
+			            		<h:graphicImage value="Images/note.png" alt="note" width="30px"/> 
+			            		<h:outputText value="#{recipetmp.rating}" />
+			            	</h:panelGrid>
+			            	
+			            	<h:panelGrid columns="1" rows="3">
+				                
+				                <h:commandLink action="#{recipeList.printRecipe}" value="#{recipetmp.name}">  
+				                    <f:setPropertyActionListener value="#{recipetmp}"   
+				                            target="#{recipeList.selectedRecipe}" />  
+				                </h:commandLink>  
+				            
+			            		<h:outputText value="#{recipetmp.resume}" />  
+			            	</h:panelGrid>
+			            
+			            </h:panelGrid>  
+			        </p:panel>  
+			    </p:dataGrid>  
+			    
+			</h:form>
+
+		</ui:define>
+		
+	</ui:composition>
+	
+</html>

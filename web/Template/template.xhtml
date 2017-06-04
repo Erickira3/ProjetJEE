@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+	<h:outputStylesheet library="css" name="/Css/style.css"  />
+</h:head>
+
+<h:body>
+		
+	<div class="ui-g">
+	    <div class="ui-g-4">
+	    	<ui:insert name="section">
+	    		<h1>Cook Me</h1>
+	    	</ui:insert>
+	    </div>
+	    <div class="ui-g-2"></div>
+	    <div class="ui-g-2"></div>
+	    <div class="ui-g-2">
+	    	<h:button value="+ Become member" />
+	    </div>
+	    <div class="ui-g-2">
+		    	
+				<h:form>
+					<h:inputText value=" #{userBean.login} "></h:inputText><br/>
+					<h:inputSecret value=" #{userBean.pwd} "></h:inputSecret><br/>
+					<h:commandButton value="OK" action="#{usercontroller.connection}" />
+				</h:form>
+
+	    </div>
+	</div>
+	
+	
+		<ui:insert name="mytitle"><h1>Default Title</h1></ui:insert>
+		<ui:insert name="mybody"></ui:insert>
+	
+	
+<!-- 	<ui:decorate template="footer.xhtml" /> -->
+
+	<div class="ui-g">
+	    <div class="ui-g-4">
+	    	<p style="font-size:10px;">Copyright 2013 of right reserved</p>
+	    </div>
+	    <div class="ui-g-2"></div>
+	    <div class="ui-g-2"></div>
+	    <div class="ui-g-2"></div>
+	    <div class="ui-g-2">
+			<h:graphicImage value="Images/Logo1.2.png" alt="logo" width="30%" style="float:right"/> 
+	    </div>
+	</div>
+
+</h:body>
+</html>

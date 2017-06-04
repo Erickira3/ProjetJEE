@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="Template/template.xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pf="http://jsf.playerfinder.net/components"
+    xmlns:p="http://primefaces.org/ui">
+    
+    	<ui:define name="section">
+			<h1>Recipes</h1>
+		</ui:define>
+	
+		<ui:define name="mytitle">
+			<h1 style="text-align:center;">Tell what do you want !</h1>
+		</ui:define>
+		
+		<br/>
+		
+		<ui:define name="mybody">
+			
+			<div class="ui-g">
+			    <div class="ui-g-3"></div>
+			    <div class="ui-g-6">
+			    	<h:form>
+						<h:panelGrid columns="4">
+					        <h:graphicImage value="Images/clock.png" alt="clock" width="30%"/> 
+							<h:outputText for="time" value="Preparation duration :" />
+							<h:graphicImage value="Images/note.png" alt="note" width="25%"/> 
+							<h:outputText for="rating" value="Cook expertise :" width="30%"/>
+							
+							<h:outputText value="" />
+							<p:inputMask id="time" value="#{RecipeBean.time}" mask="99,99"/>
+							<h:outputText value="" />
+							<p:rating value="#{RecipeBean.rating}" stars="5" cancel="false" />
+							
+							<h:graphicImage value="Images/people.png" alt="people" width="30%"/> 
+							<h:outputText for="nbrPerson" value="For how many people :" />
+							<h:graphicImage value="Images/type.png" alt="type" width="30%"/> 				
+							<h:outputText for="type" value="Cook type :" />
+							
+							<h:outputText value="" />
+							<h:panelGrid columns="1" style="margin-bottom: 10px">
+						        <p:inputText id="nbrPerson" value="#{RecipeBean.nbrPerson}" />
+						        <p:slider for="nbrPerson" maxValue="10" />
+						    </h:panelGrid>
+		<!-- 					<input jsf:id="nbrPerson" name="nbrPerson" type="number" jsf:value="#{RecipeBean.nbrPerson}" /> -->
+		<!-- 					<h:outputText value="" /> -->
+							<h:selectOneMenu value = "#{RecipeBean.type}"> 
+							   <f:selectItem itemValue = "1" itemLabel = "Salad" /> 
+							   <f:selectItem itemValue = "2" itemLabel = "Meal" /> 
+							   <f:selectItem itemValue = "3" itemLabel = "Fish" /> 
+							   <f:selectItem itemValue = "4" itemLabel = "Dessert" /> 
+							</h:selectOneMenu> 	
+							
+					    </h:panelGrid>
+					    
+					    <br/>
+						
+						<h:commandButton id="teach_me" value="Teach Me !" action="#{recipeList.Search}" style="display:block; margin:auto; width:350px; font-size: 20px; height : 50px; background-color: #83c2e4">
+							<f:param name="type" value="#{RecipeBean.type}" />
+							<f:param name="rating" value="#{RecipeBean.rating}" />
+							<f:param name="nbrPerson" value="#{RecipeBean.nbrPerson}" />
+							<f:param name="time" value="#{RecipeBean.time}" />
+						</h:commandButton> 
+						
+					</h:form>
+			    </div>
+			    <div class="ui-g-3"></div>
+			</div>
+			
+
+		</ui:define>
+		
+	</ui:composition>
+	
+</html>
