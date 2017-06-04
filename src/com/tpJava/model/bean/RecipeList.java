@@ -38,10 +38,10 @@ public class RecipeList {
 //		System.out.println("Time : "+time+"\nRating : "+rating+"\nPeople : "+nbrPerson+"\nType : "+type);
 		
 		//Construction de la requete
-		String requete = "SELECT r.id_recipe, r.name, r.time, r.people, r.expertise, r.resume, tr.name as type, tr.id_type as id_type, avg(rc.rating) "
-				+ "FROM `recette` r "
-				+ "JOIN `type_recette` tr ON tr.id_type = r.id_type "
-				+ "LEFT JOIN `recipe_comment` rc ON rc.id_recipe = r.id_recipe "
+		String requete = "SELECT r.id, r.name, r.time, r.people, r.rating, r.resume, tr.name as type, tr.id as id_type, avg(rc.rating) "
+				+ "FROM `recipe` r "
+				+ "JOIN `type_recipe` tr ON tr.id = r.id_type "
+				+ "LEFT JOIN `recipe_comments` rc ON rc.id_recipe = r.id "
 				+ "WHERE 1 ";
 		
 		//Ajout des parametres de recherche a la requete
@@ -58,7 +58,7 @@ public class RecipeList {
 			requete += "AND tr.name = '"+type+"' ";
 		}
 		
-		requete += "GROUP BY r.id_recipe";
+		requete += "GROUP BY r.id";
 		
 		//Execution de la requete
 //        System.out.println(requete);
@@ -72,7 +72,7 @@ public class RecipeList {
 //            r = new RecipeBean();
 //			r.setName(results.getString("name"));
 //			r.setTime(results.getInt("time"));
-//			r.setRating(results.getInt("expertise"));
+//			r.setRating(results.getInt("rating"));
 //			r.setType(results.getString("type"));
 //			r.setNbrPerson(results.getInt("people"));
 //			r.setResume(results.getString("resume"));
@@ -145,7 +145,7 @@ public class RecipeList {
 	//Récupération des commentaires de la recette et affichage de la page
 	public String printRecipe() {
 				
-		String requete = "SELECT u.name, c.date, c.comment, c.rating"
+		String requete = "SELECT u.name, c.date, c.comment, c.rating, u.name"
 				+ "FROM recipe_comments c"
 				+ "JOIN user u ON u.id_user = c.id_user"
 				+ "WHERE id_recipe = " + selectedRecipe.getId();
@@ -161,9 +161,10 @@ public class RecipeList {
 //      while (results.next()) {
 //            rc = new RecipeCommentsBean();
 //			rc.setUser(results.getString("name"));
-//			rc.setDate(results.getInt("time"));
+//			rc.setDate(results.getInt("date"));
 //			rc.setComment(results.getString("comment"));
 //			rc.setRating(results.getInt("rating"));
+//		    rc.setUser(results.getString("user"));
 //			recipeComments.add(rc);
 //      }
 		
