@@ -2,9 +2,11 @@ package com.tpJava.model.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Erickira on 31/05/2017.
@@ -21,9 +23,23 @@ public class UserLService {
         return INSTANCE;
     }
 
-    public UserL createStudent(UserL obj) throws SQLException {
+    public void createStudent(UserL obj) throws SQLException {
+        System.out.println(obj);
+
         new UserLDao().insertUser(obj);
-        return obj;
+//        return obj;
+    }
+
+    public void toEditUser(UserL user) {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        sessionMap.put("currentEditUser", user);
+    }
+
+    public void cancelEditUser() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        if (null != sessionMap.get("currentEditUser")) {
+            sessionMap.remove("currentEditUser");
+        }
     }
 
     public UserL findStudent(UserL obj) throws SQLException {
@@ -41,5 +57,6 @@ public class UserLService {
 
     public void update(UserL student) throws SQLException {
         UserLDao studentDAO = new UserLDao();
+
     }
 }

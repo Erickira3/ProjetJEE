@@ -1,8 +1,11 @@
 package com.tpJava.model.bean;
 
+import javax.annotation.PostConstruct;
 import javax.faces.annotation.ManagedProperty;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.html.HtmlInputText;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -93,20 +96,26 @@ public class UserL {
         this.result = result;
     }
 
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
-    }
-
     public ArrayList<UserL> getListUser() throws SQLException {
         ArrayList<UserL> acc = new UserLService().findAll();
         setListUser(acc);
         return acc;
     }
 
+
     public void setListUser(ArrayList<UserL> listUser) {
         this.listUser = listUser;
     }
 
+    public String editAction(UserL order) {
+        this.age=order.age;
+        this.name=order.name;
+        this.nom=order.nom;
+        this.email=order.email;
+        this.pass=order.pass;
+        System.out.println(this.nom);
+        return null;
+    }
 
     public UserL getUser() {
         return user;
@@ -116,11 +125,14 @@ public class UserL {
         return canEdit;
     }
 
-    public Boolean canEdit(UserL obj) {
-
-        obj.setCanEdit(true);
-        return obj.canEdit;
-
+    public void submit() throws SQLException {
+        UserL acc = new UserL();
+        acc.name=name;
+        acc.pass=pass;
+        acc.age=age;
+        acc.email=email;
+        acc.nom=nom;
+        new UserLService().createStudent(acc);
     }
 
     public void setUser(UserL user) {

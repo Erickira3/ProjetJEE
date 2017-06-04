@@ -7,7 +7,7 @@
 	  <managed-bean>
 		<managed-bean-name>pageManager</managed-bean-name>
 		<managed-bean-class>
-			com.tpJava.model.bean.Bean
+			com.tpJava.model.bean.UserL
 		</managed-bean-class>
 		<managed-bean-scope>
 			request

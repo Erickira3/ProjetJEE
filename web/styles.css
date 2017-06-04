@@ -1,16 +1,21 @@
-.table-style{
-	border:solid;
+.employeeTable {
+	border-collapse:collapse;
+	border:1px solid #000000;
 }
 
-.heading-style{
-	background-color: black;
-	color: white;
+.employeeTableHeader {
+	text-align:center;
+	background:none repeat scroll 0 0 #B5B5B5;
+	border-bottom:1px solid #000000;
+	padding:2px;
 }
 
-.rowA{
-	background-color: white;
+.employeeTableOddRow {
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFF;
 }
 
-.rowB{
-	background-color: #689AFF;
+.employeeTableEvenRow {
+	text-align:center;
+	background:none repeat scroll 0 0 #D3D3D3;
 }

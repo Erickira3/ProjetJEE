@@ -34,8 +34,8 @@ public class UserLDao {
 
     public void insertUser(UserL obj) throws SQLException {
         result = "Submitted values: " + obj.getName() + ", " + obj.getPass() + ", " + obj.getEmail() + ", " + obj.getNom() + ", " + obj.getAge() ;
-        System.out.println(result);
-        String requete = "INSERT INTO `userreg`(`name`, `pass`, `nom`, `email`, `age`) VALUES ('" + obj.getName() +"','"+obj.getPass()+"','"+obj.getNom()+"','"+obj.getEmail()+"','"+obj.getAge()+"')";
+
+        String requete = "INSERT INTO `userreg`(`name`, `pass`, `nom`, `email`, `age`) VALUES ('" + obj.getName() +"','"+obj.getPass()+"','"+obj.getNom()+"','"+obj.getEmail()+"','"+obj.getAge()+"') ON DUPLICATE KEY UPDATE `pass`='"+obj.getPass()+"',`nom`='"+obj.getNom()+"',`email`='"+obj.getEmail()+"',`age`='"+obj.getAge()+"';";
         System.out.println(requete);
         new LoginDao().insert(requete);
     }
@@ -58,13 +58,11 @@ public class UserLDao {
 
     public void selectAdmin(UserL obj) throws SQLException {
         String requete = "SELECT * FROM `userreg` WHERE `name`='" + obj.getName() + "' AND `pass`='"+obj.getPass()+"'";
-        System.out.println(requete);
         new LoginDao().query(requete);
         ResultSet verif = new LoginDao().query(requete);
         while (verif.next()) {
             String login = verif.getString("name");
             int admin = verif.getInt("admin");
-            System.out.println(login + "\t" + admin);
             if(admin==0)
             {
                 System.out.println("Utilisateur non accepté");
@@ -86,7 +84,6 @@ public class UserLDao {
             int age = verif.getInt("age");
             String email = verif.getString("email");
             UserL eric = new UserL(login, nom, age, email);
-            System.out.println(eric);
             listUser.add(eric);
         }
         return listUser;
