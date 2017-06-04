@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="Template/template.xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pf="http://jsf.playerfinder.net/components"
+    xmlns:p="http://primefaces.org/ui">
+    
+   		<ui:define name="section">
+			<h1>Recipes</h1>
+		</ui:define>
+	
+		<ui:define name="mytitle">
+			<h1 style="text-align:center;">
+				<h:outputText value="#{recipe.name}"/>
+			</h1>
+		</ui:define>
+		
+		<br/>
+		
+		<ui:define name="mybody">
+			<div class="ui-g">
+			    <div class="ui-g-2">
+
+					<h:panelGrid columns="2">
+					
+					<h:graphicImage value="Images/type.png" alt="type" width="30px"/>
+			    	<h:outputText value="#{recipeList.selectedRecipe.type}" />
+			    	
+			    	<h:graphicImage value="Images/clock.png" alt="clock" width="30px"/>
+					<h:outputText value="#{recipeList.selectedRecipe.time} hours" />
+					
+					<h:graphicImage value="Images/people.png" alt="people" width="30px"/>
+					<h:outputText value="#{recipeList.selectedRecipe.nbrPerson} persons" />
+					
+					<h:graphicImage value="Images/note.png" alt="note" width="30px"/>
+					<p:rating value="#{recipeList.selectedRecipe.rating}" stars="5" readonly="true" />
+				
+					
+<!-- 						<h:graphicImage value="Images/type.png" alt="type" width="30px"/>  -->
+<!-- 						<h:outputText value="salade" /> -->
+						
+<!-- 						<h:graphicImage value="Images/clock.png" alt="clock" width="30px"/> -->
+<!-- 						<h:outputText value="12" /> -->
+						
+<!-- 						<h:graphicImage value="Images/people.png" alt="people" width="30px"/>  -->
+<!-- 						<h:outputText value="4" /> -->
+						
+<!-- 						<h:graphicImage value="Images/note.png" alt="note" width="50px"/>  -->
+<!-- 						<h:outputText value="5" /> -->
+						
+					</h:panelGrid>
+					
+			    </div>
+			    <div class="ui-g-10">
+<!-- 			    	<h:outputText value="name" /> -->
+					
+<!-- 					<h:outputText value="blablablabla blabla blabla blablablablablablablabla blablablablablabla blablablabla blabla blabla blabla  blablablablablablablabla" /> -->
+					<div class="ui-g-8">
+						<h:outputText value="#{recipeList.selectedRecipe.name}" />
+					</div>
+					<div class="ui-g-2">
+						<h:form> 
+							<h:commandButton value="Back" action="search.jsf"/> 
+						</h:form>
+					</div>
+					
+					<div class="ui-g-10">
+						<h:outputText value="#{recipeList.selectedRecipe.resume}" />
+					</div>
+			    </div>
+			</div>
+			
+			<div class="ui-g">
+				<h:dataTable value="#{recipeList.recipeComments}" var="c" style="width:100%">
+
+					<h:column style="color:red">
+						<h:graphicImage value="Images/user.png" alt="user" width="30px"/><br/>
+						<h:outputText value="#{c.user}" />
+					</h:column>
+				
+					<h:column>
+						<h:outputText value="#{c.date}" />
+					</h:column>
+				
+					<h:column>
+						<h:outputText value="#{c.comment}" />
+					</h:column>
+				
+					<h:column>
+						<p:rating value="#{c.rating}" stars="5" readonly="true" />
+					</h:column>
+				
+				</h:dataTable>
+				
+				<h:panelGroup id="ajaxcontent" layout="block" >
+		
+				</h:panelGroup>
+			
+			</div>
+			
+			<br/>
+			
+			<h:form>
+				<div class="ui-g">
+					<div class="ui-g-8">
+						<h:inputTextarea cols="100" rows="5" id="comment" name="comment" value="#{RecipeCommentsBean.comment}" />
+						</div>
+					<div class="ui-g-2">
+						<p:rating id="rating" name="rating" value="#{RecipeCommentsBean.rating}" stars="5" cancel="false" />
+						<input type="hidden" name="id_recipe" value="#{recipeList.selectedRecipe.id}" />
+					</div>
+					<div class="ui-g-6">
+						
+					</div>
+					<div class="ui-g-2">
+						<h:commandButton value="Post your comment" action="#{RecipeCommentsBean.addComment}">
+					        <f:ajax render="new" execute="@form" onevent="recette" >
+					        	<f:param value="#{recipeList.selectedRecipe.id}" name="id_recipe" />
+<!-- 					        	<f:param value="#{userBean.id}" name="id_user" /> -->
+					        </f:ajax>
+					    </h:commandButton>
+					</div>
+				</div>
+			</h:form>
+		
+		</ui:define>
+		
+	</ui:composition>
+	
+</html>
